@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+  </head>
+  <body>
+    <h1>Home</h1>
+    <div id="name"></div>
+    <div id="email"></div>
+    <div id="contact"></div>
+
+    <a href="profile">Update profile</a>
+
+    <script>
+         document.addEventListener('DOMContentLoaded', async() => {
+   
+             const token = localStorage.getItem("token");
+             try {
+               // Call the login API using fetch
+               const response = await fetch("/api/user/profile", {
+                 method: "GET",
+                 headers: {
+                   "Content-Type": "application/json",
+                   Authorization: token,
+                 },
+               });
+       
+               const data = await response.json();
+               if(data){
+                const name = document.getElementById("name")
+                const email = document.getElementById("email")
+                const contact = document.getElementById("contact")
+                name.innerHTML = `<h2> ${data?.name} </h2>`
+                email.innerHTML = `<p> ${data?.email} </p>`
+                contact.innerHTML = `<p> ${data?.contact_no} </p>`
+               }
+               console.log(data);
+             } catch (error) {
+               console.log(error);
+             }
+    });
+    </script>
+  </body>
+</html>
